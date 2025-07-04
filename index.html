@@ -1,1 +1,59 @@
+{% extends "./layout.html" %}
+{% block head %}
+  {% include './../../dukaan/common/page-imports/home-page-imports.html' %}
+  {% if DUKAAN_WEB_BANNERS.length > 0 %}
+  <link rel="preload" as="image" href="{{ DUKAAN_WEB_BANNERS[0].image | cdn(1400) }}" />
+  {% endif %}
+  {% if DUKAAN_MOBILE_BANNERS.length > 0 %}
+  <link rel="preload" as="image" href="{{ DUKAAN_MOBILE_BANNERS[0].image | cdn(700) }}" />
+  {% endif %}
+  {{ 'home.css' | css | static }}
+{% endblock head %}
+{% block content %}
+{% set homePageSection = dukaanThemeDataConfig['Homepage'] %}
+<mobile-coupons></mobile-coupons>
+{% include './components/banners.html' %}
+{% include './components/marquee-text.html' %}
+{% include './components/category-products.html' %}
+{% include './components/category-list.html' %}
 
+{% if homePageSection['Image with category products section 1'].isActive %}
+  <!-- Featured Product section 1 -->
+  {% set imageWithCategoryProductsSectionValues = {
+    'heading': homePageSection['Image with category products section 1'].fields[0].value,
+    'description': homePageSection['Image with category products section 1'].fields[1].value,
+    'category': homePageSection['Image with category products section 1'].fields[2].value[0],
+    'image': homePageSection['Image with category products section 1'].fields[3].value,
+    'image label': homePageSection['Image with category products section 1'].fields[3].meta.label,
+    'image cta': homePageSection['Image with category products section 1'].fields[3].imageUrl,
+    'view all label': homePageSection['Image with category products section 1'].fields[3].meta.label
+  } %}
+  {% include './components/image-with-category-products.html' %}
+{% endif %}
+
+{% include './components/youtube-embed-section.html' %}
+
+{% if homePageSection['Image with category products section 2'].isActive %}
+  <!-- Featured Product section 2 -->
+  {% set imageWithCategoryProductsSectionValues = {
+    'heading': homePageSection['Image with category products section 2'].fields[0].value,
+    'description': homePageSection['Image with category products section 2'].fields[1].value,
+    'category': homePageSection['Image with category products section 2'].fields[2].value[0],
+    'image': homePageSection['Image with category products section 2'].fields[3].value,
+    'image label': homePageSection['Image with category products section 2'].fields[3].meta.label,
+    'image cta': homePageSection['Image with category products section 2'].fields[3].imageUrl,
+    'view all label': homePageSection['Image with category products section 2'].fields[3].meta.label
+  } %}
+  {% include './components/image-with-category-products.html' %}
+{% endif %}
+
+{% include './components/testimonials-section.html' %}
+{% include './components/icons-with-text.html' %}
+{% include './components/newsletter-section.html' %}
+{% include './../../dukaan/common/coupons-mobile.html' %}
+{% include './../../dukaan/common/coupons-offers-drawer.html' %}
+{% endblock content %}
+
+{% block script %}
+  {{ 'home.js' | js | static }}
+{% endblock script %}
